@@ -7,7 +7,7 @@
   
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
-
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
   <style type="text/css">
     
@@ -26,9 +26,8 @@
         background-size: 22px 22px;
 		
     }
- .ui-btn.ui-icon-comunicacion { background-color: rgba(255, 255, 0, 0.3); !important; }
+    .ui-btn.ui-icon-comunicacion { background-color: rgba(255, 255, 0, 0.3); !important; }
 
- 
     .ui-btn.ui-icon-expansion, .ui-btn.ui-icon-expansion:after
      {
         background-repeat: no-repeat !important;
@@ -44,8 +43,7 @@
         background-size: 22px 22px;
 		
     }
- .ui-btn.ui-icon-expansion {   background-color: rgba(255, 0, 0, 0.3); !important; }
-
+     .ui-btn.ui-icon-expansion {   background-color: rgba(255, 0, 0, 0.3); !important; }
 
   </style>
      
@@ -144,6 +142,7 @@ function creaacta() {
     texto0 += "\r\n" + $('#fin').val() + "\r\n";
     $('#actafinaldiv').html(texto);
     $('#actafinaltext').val(texto0);
+    $('#envia').show();
 }
 
 function pmas() {
@@ -319,7 +318,7 @@ http://charlie.griefer.com/blog/2009/09/17/jquery-dynamically-adding-form-elemen
 */
 </script>  
 
- <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
 
 </head>
 <body>
@@ -351,7 +350,7 @@ http://charlie.griefer.com/blog/2009/09/17/jquery-dynamically-adding-form-elemen
 <footer data-role="footer">
     <div id="actafinaldiv"></div>
     <textarea id="actafinaltext"></textarea>
-    <button id="envia" class="ui-shadow ui-btn ui-corner-all ui-icon-back ui-btn-icon-right">Guarda(Modo prueba)</button>
+    <button id="envia" class="ui-shadow ui-btn ui-corner-all ui-icon-back ui-btn-icon-right" style="display:none">Guarda(Modo prueba)</button>
 </footer>
  </body>
  </html>
