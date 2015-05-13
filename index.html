@@ -1,0 +1,357 @@
+<html class="ui-mobile"><head>
+
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Acta</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+
+
+  <style type="text/css">
+    
+   .ui-btn.ui-icon-comunicacion, .ui-btn.ui-icon-comunicacion:after
+     {
+        background-repeat: no-repeat !important;
+        /*Remove circle disc*/
+        background-color: rgba(30, 0, 0, 0); !important;
+        background-position: 98% 50% ; !important;
+        background-size: 22px 22px;
+		
+    }
+    .ui-btn.ui-icon-comunicacion:hover
+     {
+        background-position: 98% 50% ; !important;
+        background-size: 22px 22px;
+		
+    }
+ .ui-btn.ui-icon-comunicacion { background-color: rgba(255, 255, 0, 0.3); !important; }
+
+ 
+    .ui-btn.ui-icon-expansion, .ui-btn.ui-icon-expansion:after
+     {
+        background-repeat: no-repeat !important;
+        /*Remove circle disc*/
+        background-color: rgba(30, 30, 0, 0); !important;
+        background-position: 98% 50% ; !important;
+        background-size: 22px 22px;
+		
+    }
+    .ui-btn.ui-icon-expansion:hover
+     {
+        background-position: 98% 50% ; !important;
+        background-size: 22px 22px;
+		
+    }
+ .ui-btn.ui-icon-expansion {   background-color: rgba(255, 0, 0, 0.3); !important; }
+
+
+  </style>
+     
+
+  
+<script>
+var toca = 0;
+var tema = 0;
+var actualpartic = 0;
+var temas = ['Borrar', '', '', ''];
+var icono = ['comunicacion', 'home', 'expansion', 'comunicacion'];
+var lastview = ['', ''];
+var contemas = 1
+var participantes = [];
+var numPartic = 2;
+var tipotema = 1;
+
+function cambiaestilo() {
+}
+
+function miranombre(orden) {
+    actualpartic = orden;
+    $('input[id=pn]').val(participantes[orden])
+    $('.p'+actualpartic).clone().attr('onclick','$(this).remove()');
+    var sumach = 0
+    if ($('#sib-1').is(':checked')) {
+        sumach++;
+        pmas();
+    }
+    if ($('#nob-1').is(':checked')) {
+        sumach++;
+        pmenos();
+    }
+    if ($('#absb-1').is(':checked')) {
+        sumach++;
+        pabs();
+    }
+    if (sumach == 0) {
+        $('input[id=name' + toca + ']').val($('input[id=name' + toca + ']').val() + participantes[actualpartic] + ': ');
+    }
+}
+
+function temanuevo() {
+    var t = $('input[id=temanuevo]').val()
+    if (t.length > 1) {
+        temas[toca] = $('input[id=temanuevo]').val();
+        if (tipotema == 1) {
+            $('#tema' + toca).attr('data-theme', 'a').trigger('create');
+        }
+        if (tipotema == 2) {
+            $('#tema' + toca).attr('data-theme', 'b').trigger('create');
+        }
+    }
+}
+
+function temaedita() {
+    temas[toca] = $('input[id=temanuevo]').val();
+    $('#tema' + toca).html(temas[toca]);
+}
+
+function cambianombre() {
+    $('.quedecides').attr('checked', false);
+    $("input[type='radio']:first").attr("checked", "checked");
+    $("input[type='radio']").checkboxradio("refresh");
+    var p = $('input[id=pn]').val();
+    $('.textotema').each(function () {
+        var txt1 = $(this).val()
+        var re = new RegExp(participantes[actualpartic] + ': ', 'g');
+        txt1 = txt1.replace(re, p + ': ');
+        $(this).val(txt1)
+    });
+    participantes[actualpartic] = p;
+    $('.p' + actualpartic).html(p);
+}
+
+function creaacta() {
+    var texto = '';
+    var texto0 = '';
+    var texto1 = [];
+    var texto2 = [];
+    texto += '<p>' + $('#name1').val() + '</p>'
+    texto0 += $('#name1').val() + "\r\n"
+    $('.tematoca').each(function (i) {
+        var txt = $(this).html()
+        texto1.push('' + txt.toUpperCase() + '')
+    });
+    $('.textotema').each(function (i) {
+        var txt = $(this).val()
+        texto2.push('' + txt + '')
+    });
+    for (a = 0; a < texto1.length; a++) {
+        texto += '<br>' + texto1[a] + '<br>&nbsp;&nbsp;&nbsp;' + texto2[a];
+        texto0 += "\r\n" + texto1[a] + "\r\n    " + texto2[a];
+    }
+    texto += '<p>' + $('#fin').val() + '</p>';
+    texto0 += "\r\n" + $('#fin').val() + "\r\n";
+    $('#actafinaldiv').html(texto);
+    $('#actafinaltext').val(texto0);
+}
+
+function pmas() {
+    var newElem = $('.p' + actualpartic + ':first').clone().attr('onclick', '$(this).remove()');
+    $('#partic' + toca).append(newElem);
+}
+
+function pmenos() {
+    var newElem = $('.p' + actualpartic + ':first').clone().attr('onclick', '$(this).remove()').css('background-color', '#ccc');
+    $('#partic' + toca).append(newElem);
+}
+
+function pabs() {
+    var newElem = $('.p' + actualpartic + ':first').clone().attr('onclick', '$(this).remove()').css('color', '#ddd');
+    $('#partic' + toca).append(newElem);
+}
+
+function ponConsenso() {
+    var newElem = $('.pconsenso:first').clone().attr('onclick', '$(this).remove()');
+    $('#partic' + toca).append(newElem);
+}
+
+function ponMayoria() {
+    var newElem = $('.pmayoria:first').clone().attr('onclick', '$(this).remove()');
+    $('#partic' + toca).append(newElem);
+}
+
+function miranumpartic() {
+    var t = $('#name1').val();
+    var a = t.split(' ')
+    var n = jQuery.inArray("personas.", a);
+    var N = parseInt(a[n - 1])
+    return N;
+}
+
+function creaPartic() {
+    $('#listaparticipantes').html('').trigger('create');
+    for (var a = 1; a <= numPartic; a++) {
+        if (typeof (participantes[a]) == 'undefined') {
+            participantes[a] = 'p' + a + '';
+        }
+        listatext = '<button  class="p' + a + '"  onclick="miranombre(' + a + ');" data-mini="true" data-inline="true" data-theme="a">' + participantes[a] + '</button>';
+        $('#listaparticipantes').append(listatext).trigger('create');
+    }
+}
+
+var my_date_format = function (input) {
+    var d = new Date(Date.parse(input.replace(/-/g, "/")));
+    var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var date = d.getDay() + " " + month[d.getMonth()] + ", " + d.getFullYear();
+    var time = d.toLocaleTimeString().toLowerCase().replace(/([\d]+:[\d]+):[\d]+(\s\w+)/g, "$1$2");
+    return (date + " " + time);
+};
+
+function getISODate(d) {
+    var s = function (p) {
+        return ('' + p).length < 2 ? '0' + p : '' + p;
+    };
+    if (typeof d === 'undefined') {
+        var d = new Date();
+    };
+    var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    var mesn = d.getMonth(); //s(d.getMonth()+1);
+    var mes = meses[mesn];
+    return s(d.getDate()) + ' de ' +
+    mes + ' de ' +
+    d.getFullYear() + ' ';
+}
+
+function getISOTime(d) {
+    var s = function (p) {
+        return ('' + p).length < 2 ? '0' + p : '' + p;
+    };
+    if (typeof d === 'undefined') {
+        var d = new Date();
+    };
+    return s(d.getHours()) + '.' +
+    s(d.getMinutes()) + '';
+    //+ s(d.getSeconds());
+}
+
+function diasemana() {
+    var dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
+    var d = new Date();
+    var dia = d.getDay();
+    return dias[dia]
+}
+
+//$(document).ready(function() {
+$(document).on("pageshow", "[data-role='page']", function () {
+    $('div.ui-loader').remove();
+});
+
+$(document).bind("pageinit", function (e) {
+    var fechaini = getISODate()
+    var horaini = getISOTime()
+    var diasem = diasemana()
+    var textoini = 'ACTA DEL ENCUENTRO ' + diasem + ', ' + fechaini + ', En este sitio a las ' + horaini + ' comienza el encuentro con la asistencia 12 personas.'
+    $('#name1').val(textoini);
+    $('#name1').on('click', function () {
+        numPartic = miranumpartic();
+        creaPartic()
+    });
+    $('#fin').on('click', function () {
+        var horafin = getISOTime()
+        var textofin = 'Finaliza la reunión siendo las ' + horafin + ' horas'
+        $('#fin').val(textofin);
+    });
+    var listatext = ''
+    var t = miranumpartic();
+    numPartic = t;
+    creaPartic();
+    listatext = '<button  class="pconsenso"  onclick="ponConsenso()" data-mini="true" data-inline="true" style="background-color:#cab">Consenso</button>';
+    listatext += '<button  class="pmayoria"  onclick="ponMayoria()" data-mini="true" data-inline="true" style="background-color:#bac">Mayoria</button>';
+    listatext += ' <button  id="cambiabnombre" onclick="cambianombre()" data-mini="true" data-inline="true">Cambia Nombre</button>'
+    $('#acciones').append(listatext).trigger('create');
+    listatext = '<input type="text" name="pn" id="pn" data-mini="true"  value=""  style="width:20%;"/>';
+    $('#acciones').append(listatext);
+    listatext = '<label for="cambianombre-1">Cambia nombre</label><input type="radio" class="quedecides" name="quedecides" id="cambianombre-1" data-mini="true"  checked="checked" />';
+    listatext += '<label for="sib-1">Si</label><input type="radio" class="quedecides" name="quedecides"  id="sib-1" data-mini="true" />';
+    listatext += '<label for="nob-1">No</label><input type="radio"  class="quedecides" name="quedecides" id="nob-1" data-mini="true" />';
+    listatext += '<label for="absb-1">Abstencion</label><input type="radio" class="quedecides" name="quedecides" id="absb-1" data-mini="true"  />';
+    $('#acciones1').controlgroup("container").append(listatext);
+    $("#acciones1").enhanceWithin().controlgroup("refresh");
+    listatext = '<input type="text" name="temanuevo" id="temanuevo" data-mini="true"  value=""  style="width:30%;"/>';
+    $('#temas').append(listatext).trigger('create');
+    listatext = ' <button  id="temanuevobutton" onclick="temanuevo()" class="btnAdd" data-mini="true" data-inline="true">Nuevo Tema</button>'
+    $('#temas').append(listatext).trigger('create');
+    listatext = ' <button  id="temaeditabutton" onclick="temaedita()" class="more" data-mini="true" data-inline="true">Edita Tema</button>'
+    $('#temas').append(listatext).trigger('create');
+    listatext = '<fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain">';
+    listatext += '<label for="propuesta-1" >Propuesta</label><input type="radio"  onchange="tipotema=1" checked class="tipotema" name="tipotema"  id="propuesta-1" data-mini="true" data-inline="true" style="background-color:#cc0" />';
+    listatext += '<label for="informacion-1">Información</label><input type="radio" onchange="tipotema=2" class="tipotema" name="tipotema" id="informacion-1" data-mini="true" data-inline="true" style="background-color:#c00" /></fieldset>';
+    $('#temas').append(listatext).trigger('create');
+    $('#cambianombre-1').parent().hide();
+    $('.btnAdd').on('click', function () {
+        var estetema = $('input[id=temanuevo]').val();
+        if (estetema.length < 2) {
+            return;
+        }
+        var num = $('.clonedInput').length;
+        var newNum = new Number(num + 1);
+        $('#input' + (newNum - 1)).after('<fieldset id="input' + newNum + '" onclick="toca=' + newNum + ';cambiaestilo()" class="clonedInput" data-role="controlgroup"></fieldset>').trigger('create');
+        $('#input' + (newNum)).append('<button class="ui-shadow ui-btn ui-corner-all ui-btn-icon-right tematoca" id="tema' + newNum + '">' + estetema + '</button>').trigger('create');
+        $('#input' + (newNum)).append('<fieldset id="partic' + newNum + '" data-role="controlgroup" data-type="horizontal" data-mini="true"></fieldset>').trigger('create');
+        $('#input' + (newNum)).append('<input type="text" data-clear-btn="true" id="name' + newNum + '" class="textotema" data-theme="a"/>').trigger('create');
+        $('#tema' + (newNum)).on('click', function (event) {
+            var p = $(this).html();
+            $('input[id=temanuevo]').val(p)
+        });
+        toca = newNum;
+        if (num - 1 > 1) {
+            $('#btnDel').removeAttr('disabled').button('enable');
+        }
+        if (newNum == 5) {
+            //$('#btnAdd' ).attr('disabled', 'disabled').button('disable');
+            //$('#btnAdd').parent().find('.ui-btn-text').text('maximum fields reached');
+        }
+    });
+    $('#btnDel').click(function () {
+        var num = $('.clonedInput').length;
+        $('#input' + num).remove();
+        if (num - 1 == 1) {
+            $('#btnDel').attr('disabled', 'disabled').button('disable');
+        }
+    });
+});
+
+/*
+ http://www.snipe.net/2012/02/jquery-mobile-add-remove-fields-dynamically/
+Based on the great post by Charlie Griefer, available here:
+http://charlie.griefer.com/blog/2009/09/17/jquery-dynamically-adding-form-elements/
+*/
+</script>  
+
+ <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+</head>
+<body>
+<div data-role="header">
+     <h3>Acta de la reunión</h3>
+
+</div>
+<!-- <form action="#" method="post">-->
+<div data-role="content">
+    <div id="input1" class="clonedInput" style="margin-bottom: 4px;">
+        <textarea name="name_label[]" id="name1" placeholder="Name"></textarea>
+    </div>
+    <div data-role="fieldcontain">
+        <fieldset id="listaparticipantes" data-role="controlgroup" data-type="horizontal"></fieldset>
+        <fieldset id="acciones" data-role="controlgroup" data-type="horizontal" data-mini="true"></fieldset>
+        <fieldset id="acciones1" data-role="controlgroup" data-type="horizontal" data-mini="true"></fieldset>
+    </div>
+    <div class="ui-field-contain">
+        <p>Temas:</p>
+        <fieldset id="temas" data-role="controlgroup" data-type="horizontal" data-mini="true"></fieldset>
+        </fieldset>
+    </div>
+    <button id="btnDel" class="ui-shadow ui-btn ui-corner-all ui-icon-back ui-btn-icon-right">Borra último</button>
+</div>
+<div id="divfin" style="margin-bottom: 4px;">
+    <textarea name="fin" id="fin">Finaliza la reunión siendo las 0.00 horas</textarea>
+</div>
+<button id="botoncreaacta" onclick="creaacta()" class="btnAdd ui-shadow ui-btn ui-corner-all ui-icon-home ui-btn-icon-right">Acta de la reunión</button>
+<footer data-role="footer">
+    <div id="actafinaldiv"></div>
+    <textarea id="actafinaltext"></textarea>
+    <button id="envia" class="ui-shadow ui-btn ui-corner-all ui-icon-back ui-btn-icon-right">Guarda(Modo prueba)</button>
+</footer>
+ </body>
+ </html>
