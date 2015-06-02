@@ -125,7 +125,16 @@ function creaacta() {
     var texto1 = [];
     var texto2 = [];
     texto += '<p>' + $('#name1').val() + '</p>'
-    texto0 += $('#name1').val() + "\r\n"
+    texto0 += $('#name1').val() + "\r\n";
+    
+        texto+='<p>Han intervenido:</p>'
+        texto0+="\r\n"+'Han intervenido:';
+    $(participantes).each(function (i) {
+    
+    texto += '<i>' + participantes[i+1] + '</i> '
+    texto0 +=  participantes[i+1] + ' '+"\r\n";
+    });  
+    
     $('.tematoca').each(function (i) {
         var txt = $(this).html()
         texto1.push('' + txt.toUpperCase() + '')
