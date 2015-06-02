@@ -127,32 +127,41 @@ function creaacta() {
     texto += '<p>' + $('#name1').val() + '</p>'
     texto0 += $('#name1').val() + "\r\n";
     
-        texto+='<p>Han intervenido:</p>'
-        texto0+="\r\n"+'Han intervenido:';
+        //texto+='<p>Han intervenido </p>'
+        //texto0+="\r\n"+'Han intervenido'+ "\r\n";
         var contIntevienen=0;
+        var pretexto1='';
+        var pretexto2='';
     $(participantes).each(function (i) {
-    	if (typeof (participantes[i]) != 'undefined') {
-    		if(participantes[i].substring(0,1)=='p' && parseInt(participantes[i].substring(1))<= i ){
+    	if (typeof (participantes[i+1]) != 'undefined') {
+    		if(participantes[i+1].substring(0,1)=='p' && parseInt(participantes[i+1].substring(1))<= i+1 ){
     			
     		}else{
-    			contIntevienen++;
+  			contIntevienen++;
+            		//pretexto1 += '<i>' + participantes[i+1] + '</i><br>';
+    			//pretexto2 +=  participantes[i+1] + ' '+"\r\n";
+
     		}
-		texto += '<i>' + participantes[i+1] + '</i> '
-    		texto0 +=  participantes[i+1] + ' '+"\r\n";
     	}
     });  
-}
-  texto += '<p>Interviniendo' + participantes[i+1] + ' personas </p> '
-  texto0 += "\r\n"+ 'Interviniendo'+ contIntevienen + ' personas '+"\r\n"
+  var porciento= (contIntevienen*100/(participantes.length-1)).toFixed(0); 
+  texto += '<p>Participando con su intervención ' + contIntevienen + ' de ellas, un '+porciento+' %'+'</p> '
+  texto0 += "\r\n"+ 'Participando con su intervención '+ contIntevienen + ' de ellas, un '+porciento+' %'+"\r\n"
+
+  //texto += '' + pretexto1 + '  '
+  //texto0 += ""+ pretexto2 +"\r\n"
+
     
     $('.tematoca').each(function (i) {
         var txt = $(this).html()
-        texto1.push('' + txt.toUpperCase() + '')
+        texto1.push('' + txt.toUpperCase() + '');
+        
     });
     $('.textotema').each(function (i) {
         var txt = $(this).val()
         texto2.push('' + txt + '')
     });
+    
     for (a = 0; a < texto1.length; a++) {
         texto += '<br>' + texto1[a] + '<br>&nbsp;&nbsp;&nbsp;' + texto2[a];
         texto0 += "\r\n" + texto1[a] + "\r\n    " + texto2[a];
@@ -347,7 +356,7 @@ http://charlie.griefer.com/blog/2009/09/17/jquery-dynamically-adding-form-elemen
 </div>
 <!-- <form action="#" method="post">-->
 <div data-role="content">
-    <div id="input1" class="clonedInput" style="margin-bottom: 4px;">
+    <div id="input1" class="actabutton" style="margin-bottom: 4px;">
         <textarea name="name_label[]" id="name1" placeholder="Name"></textarea>
     </div>
     <div data-role="fieldcontain">
@@ -365,7 +374,7 @@ http://charlie.griefer.com/blog/2009/09/17/jquery-dynamically-adding-form-elemen
 <div id="divfin" style="margin-bottom: 4px;">
     <textarea name="fin" id="fin">Finaliza la reunión siendo las 0.00 horas</textarea>
 </div>
-<button id="botoncreaacta" onclick="creaacta()" class="btnAdd ui-shadow ui-btn ui-corner-all ui-icon-home ui-btn-icon-right">Acta de la reunión</button>
+<button id="botoncreaacta" onclick="creaacta()" class="ui-shadow ui-btn ui-corner-all ui-icon-home ui-btn-icon-right">Acta de la reunión</button>
 <footer data-role="footer">
     <div id="actafinaldiv"></div>
     <textarea id="actafinaltext"></textarea>
