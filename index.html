@@ -129,11 +129,21 @@ function creaacta() {
     
         texto+='<p>Han intervenido:</p>'
         texto0+="\r\n"+'Han intervenido:';
+        var contIntevienen=0;
     $(participantes).each(function (i) {
-    
-    texto += '<i>' + participantes[i+1] + '</i> '
-    texto0 +=  participantes[i+1] + ' '+"\r\n";
+    	if (typeof (participantes[i]) != 'undefined') {
+    		if(participantes[i].substring(0,1)=='p' && parseInt(participantes[i].substring(1))<= i ){
+    			
+    		}else{
+    			contIntevienen++;
+    		}
+		texto += '<i>' + participantes[i+1] + '</i> '
+    		texto0 +=  participantes[i+1] + ' '+"\r\n";
+    	}
     });  
+}
+  texto += '<p>Interviniendo' + participantes[i+1] + ' personas </p> '
+  texto0 += "\r\n"+ 'Interviniendo'+ contIntevienen + ' personas '+"\r\n"
     
     $('.tematoca').each(function (i) {
         var txt = $(this).html()
